@@ -14,7 +14,8 @@ Las instrucciones exactas para el agente están en [AGENTS.md](AGENTS.md). Te ir
 
 | Tele o aparato | ¿Funciona? |
 |---|---|
-| Fire TV Stick / Fire TV, Android TV, Google TV (Sony, TCL, Philips, Xiaomi, Chromecast…) | Sí. Se instala en unos minutos, incluso sin ordenador |
+| Fire TV Stick / Fire TV, Android TV, Google TV (Sony, TCL, Philips, Chromecast…) | Sí. Se instala en unos minutos, incluso sin ordenador |
+| Xiaomi (Mi TV, Xiaomi TV A / S Pro, Mi Box, Mi TV Stick), también los modelos chinos | Sí |
 | Samsung de 2022 o más nueva | Sí, pero hace falta un ordenador y una cuenta de Samsung (30–60 min) |
 | Móvil o tablet Android | Sí |
 | LG, Hisense/Toshiba con VIDAA, Samsung antigua, Apple TV, iPhone | No. Con un Fire TV Stick o un Google TV enchufado a la tele, sí |

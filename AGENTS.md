@@ -31,7 +31,8 @@ Pregunta la marca y el modelo. Si no lo sabe, que lo busque en la etiqueta de de
 | Marca / aparato | Sistema | ¿Se puede? | Sección |
 |---|---|---|---|
 | Fire TV Stick / Fire TV Cube / teles «Fire TV Edition» | Fire OS (Android) | Sí | [Android](#android-tv-google-tv-y-fire-tv) |
-| Chromecast con Google TV, Google TV Streamer, Sony, TCL, Philips, Xiaomi, Hisense con Google TV, Nvidia Shield, cajas Android | Android TV / Google TV | Sí | [Android](#android-tv-google-tv-y-fire-tv) |
+| Xiaomi (Mi TV, Xiaomi TV A / A Pro / S Pro / Q, Mi Box, Mi TV Stick) | Android TV / Google TV / Fire TV, según modelo | Sí | [Xiaomi](#xiaomi) y luego [Android](#android-tv-google-tv-y-fire-tv) |
+| Chromecast con Google TV, Google TV Streamer, Sony, TCL, Philips, Hisense con Google TV, Nvidia Shield, cajas Android | Android TV / Google TV | Sí | [Android](#android-tv-google-tv-y-fire-tv) |
 | Samsung de 2022 o posterior | Tizen 6.5 o superior | Sí, pero laborioso (hace falta un ordenador) | [Samsung](#samsung-tizen) |
 | Samsung de 2021 o anterior | Tizen 6.0 o inferior | No | [Sin soporte](#teles-sin-soporte) |
 | LG | webOS | No | [Sin soporte](#teles-sin-soporte) |
@@ -43,6 +44,39 @@ Pregunta la marca y el modelo. Si no lo sabe, que lo busque en la etiqueta de de
   - Son de 2022 o posteriores: B = 2022, C = 2023, D = 2024, F = 2025.
   - No sirven: A = 2021, T = 2020, R = 2019, N = 2018.
 - **Para distinguir el sistema** (Android TV, Google TV, Fire OS, VIDAA…), mira la pantalla de inicio o *Ajustes → Información*. Si dudas, pide una foto de esa pantalla.
+
+## Xiaomi
+
+Todas las teles y aparatos Xiaomi con apps son Android por dentro, así que se instala el mismo `DelK.apk`. Antes, averigua cuál de estas variantes es, para seguir los menús correctos:
+
+| Cómo se ve la pantalla de inicio | Variante | Menús a seguir |
+|---|---|---|
+| Pone «Google TV» y recomienda pelis de varias apps | Google TV (Xiaomi TV A / A Pro / S Pro de 2022 en adelante) | Los de **Google TV** de la sección Android |
+| Fila de apps de Android TV, a veces con la capa **PatchWall** de Xiaomi (botón propio en el mando) | Android TV (Mi TV 4S / 4A / P1 / Q1 / Q2, Mi Box, Mi TV Stick) | Los de **Android TV** de la sección Android. Si al pulsar Inicio sale PatchWall, los ajustes están en el engranaje de arriba a la derecha o con el botón ☰ del mando |
+| Logo de Amazon / Fire TV | Fire TV (Xiaomi «Fire TV Edition») | Los de **Fire TV** de la sección Android |
+| Menús solo en chino, sin Google Play ni tienda de Amazon | Modelo para China (MIUI TV / HyperOS) | [Modelo chino](#modelo-chino-sin-google-play) |
+
+Lo propio de Xiaomi:
+- **Opciones para desarrolladores:**
+  - En Android TV: *Ajustes → Preferencias del dispositivo → Información → Compilación*, pulsar OK 7 veces.
+  - En algunos modelos con PatchWall la entrada se llama «Versión de Android TV» o «Número de compilación».
+- **Fuentes desconocidas:**
+  - Ruta habitual: *Ajustes → Preferencias del dispositivo → Seguridad y restricciones → Fuentes desconocidas*.
+  - En modelos antiguos con PatchWall puede ser un único interruptor general en vez de una lista por app. Actívalo para instalar y desactívalo al terminar.
+- **El mando de Xiaomi no tiene botones de canal:** se cambia de canal con ▲ ▼ en pantalla completa. Si tiene teclado numérico, no hace falta.
+
+### Modelo chino (sin Google Play)
+
+No hay tienda donde buscar Downloader. Elige una de estas dos vías:
+- **Por adb** (camino B de la sección Android):
+  - La depuración está en *设置 (Ajustes) → 账号与安全 (Cuenta y seguridad) → ADB调试 (Depuración ADB)*.
+  - En el mismo menú está *安装未知来源应用 (Instalar apps de origen desconocido)*: actívalo.
+- **Con un pendrive** (si la persona no tiene ordenador a mano cerca de la tele):
+  1. Copiar `DelK.apk` (comprobado con `SHA256SUMS`) a un pendrive en FAT32.
+  2. Enchufarlo a la tele y abrir el gestor de archivos (*高清播放器* o *文件管理*).
+  3. Elegir el APK e instalar. Hay que activar antes lo de origen desconocido.
+
+La app se ve en español aunque la tele esté en chino.
 
 ## Android TV, Google TV y Fire TV
 
