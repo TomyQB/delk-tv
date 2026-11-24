@@ -17,8 +17,9 @@ Las instrucciones exactas para el agente están en [AGENTS.md](AGENTS.md). Te ir
 | Fire TV Stick / Fire TV, Android TV, Google TV (Sony, TCL, Philips, Chromecast…) | Sí. Se instala en unos minutos, incluso sin ordenador |
 | Xiaomi (Mi TV, Xiaomi TV A / S Pro, Mi Box, Mi TV Stick), también los modelos chinos | Sí |
 | Samsung de 2022 o más nueva | Sí, pero hace falta un ordenador y una cuenta de Samsung (30–60 min) |
+| LG de 2022 o más nueva | Sí, con un ordenador y una cuenta gratuita de LG. El modo desarrollador se renueva cada ~50 días con un botón |
 | Móvil o tablet Android | Sí |
-| LG, Hisense/Toshiba con VIDAA, Samsung antigua, Apple TV, iPhone | No. Con un Fire TV Stick o un Google TV enchufado a la tele, sí |
+| LG o Samsung anteriores a 2022, Hisense/Toshiba con VIDAA, Apple TV, iPhone | No. Con un Fire TV Stick o un Google TV enchufado a la tele, sí |
 
 ### Sin agente, en Fire TV / Android TV / Google TV
 

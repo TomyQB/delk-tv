@@ -8,6 +8,7 @@ Eres un agente de código (Claude Code, Codex, opencode u otro) y alguien te ha 
 |---|---|---|
 | `DelK.apk` | Android TV, Google TV, Fire TV, móviles y tablets Android | https://github.com/TomyQB/delk-tv/releases/latest/download/DelK.apk |
 | `DelK-samsung.zip` | Teles Samsung (Tizen) de 2022 o posteriores | https://github.com/TomyQB/delk-tv/releases/latest/download/DelK-samsung.zip |
+| `DelK-lg.ipk` | Teles LG (webOS TV 22) de 2022 o posteriores | https://github.com/TomyQB/delk-tv/releases/latest/download/DelK-lg.ipk |
 | `SHA256SUMS` | Comprobar las dos descargas | https://github.com/TomyQB/delk-tv/releases/latest/download/SHA256SUMS |
 
 ## Reglas
@@ -35,7 +36,8 @@ Pregunta la marca y el modelo. Si no lo sabe, que lo busque en la etiqueta de de
 | Chromecast con Google TV, Google TV Streamer, Sony, TCL, Philips, Hisense con Google TV, Nvidia Shield, cajas Android | Android TV / Google TV | Sí | [Android](#android-tv-google-tv-y-fire-tv) |
 | Samsung de 2022 o posterior | Tizen 6.5 o superior | Sí, pero laborioso (hace falta un ordenador) | [Samsung](#samsung-tizen) |
 | Samsung de 2021 o anterior | Tizen 6.0 o inferior | No | [Sin soporte](#teles-sin-soporte) |
-| LG | webOS | No | [Sin soporte](#teles-sin-soporte) |
+| LG de 2022 o posterior | webOS TV 22 o superior | Sí, con ordenador y renovando el modo desarrollador cada ~50 días | [LG](#lg-webos) |
+| LG de 2021 o anterior | webOS 6 o inferior | No | [Sin soporte](#teles-sin-soporte) |
 | Hisense / Toshiba con VIDAA, Roku, Apple TV, Philips Saphi, otras | — | No | [Sin soporte](#teles-sin-soporte) |
 | Móvil o tablet Android | Android 5.1 o superior | Sí | [Móvil o tablet](#móvil-o-tablet-android) |
 | iPhone / iPad | iOS | No | [Sin soporte](#teles-sin-soporte) |
@@ -256,9 +258,85 @@ La app queda en *Aplicaciones* como «Diversión en la Kikoneta». Para actualiz
 - repite el apartado 3 y el 5, con el mismo perfil `delk`;
 - si se cambia de tele, hace falta un certificado nuevo (apartado 4).
 
+## LG (webOS)
+
+Solo para teles LG de 2022 o posteriores. Para comprobarlo: en la tele, *Ajustes → General → Información de la TV* (o *Asistencia → Información de la TV*):
+- **Valen:** «webOS TV 22» o superior, que también puede aparecer como webOS 7, 8, 9 o 10.
+- **No valen:** webOS 6 o inferior. Ver [Sin soporte](#teles-sin-soporte).
+
+LG deja instalar apps de fuera de su tienda con su **modo desarrollador** oficial, que es gratuito. Avisa a la persona antes de empezar:
+- Necesita un ordenador (Windows, macOS o Linux) en la misma red que la tele, y unos 20 minutos.
+- Necesita una **cuenta de desarrollador de LG**, gratis. La crea ella en https://webostv.developer.lge.com (botón *Sign In → Create account*).
+- **El modo desarrollador caduca a las ~1.000 horas (unos 50 días).** Antes de que caduque hay que abrir la app *Developer Mode* en la tele y pulsar **Extend**. Si caduca, la tele borra DelK y hay que repetir los pasos 3 a 5.
+  - Propónle poner un recordatorio mensual.
+  - Si no le compensa, la alternativa sin caducidad es un Fire TV Stick o un Google TV (sección Android).
+
+### 1. Activar el modo desarrollador en la tele (lo hace la persona)
+
+1. En la tele, abrir la tienda **LG Content Store**, buscar **Developer Mode** e instalarla.
+2. Abrirla e iniciar sesión con la cuenta de desarrollador de LG.
+3. Poner **Dev Mode Status: ON**. La tele se reinicia.
+4. Volver a abrir *Developer Mode* y poner **Key Server: ON**.
+5. En esa pantalla salen la **IP de la tele** y una **Passphrase** de 6 caracteres. Hacen falta en el paso 3.
+
+### 2. Instalar las herramientas de LG en el ordenador
+
+Hace falta Node.js 18 o superior. Si no está:
+- macOS: `brew install node`
+- Windows: `winget install OpenJS.NodeJS.LTS`
+- Linux: el gestor de paquetes.
+
+Después:
+
+```sh
+npm install -g @webos-tools/cli
+ares --version        # o: ares-setup-device --version
+```
+
+### 3. Dar de alta la tele en el ordenador
+
+```sh
+ares-setup-device -a tele -i "host=IP_TELE" -i "port=9922" -i "username=prisoner"
+ares-novacom --device tele --getkey      # pide la Passphrase: la escribe la persona tal como sale en la tele
+ares-device -i -d tele                   # debe mostrar el modelo y la versión de webOS
+```
+
+Si no conecta, revisa estas cuatro cosas:
+- que *Key Server* esté en ON;
+- que la IP sea la de la pantalla de *Developer Mode*;
+- que ambos aparatos estén en la misma red;
+- que la Passphrase no haya cambiado, porque se renueva al reiniciar *Developer Mode*.
+
+### 4. Descargar y comprobar
+
+```sh
+mkdir -p ~/delk-lg && cd ~/delk-lg
+curl -fLO https://github.com/TomyQB/delk-tv/releases/latest/download/DelK-lg.ipk
+curl -fLO https://github.com/TomyQB/delk-tv/releases/latest/download/SHA256SUMS
+grep DelK-lg.ipk SHA256SUMS | shasum -a 256 -c -     # Windows: certutil -hashfile DelK-lg.ipk SHA256
+```
+
+### 5. Instalar y abrir
+
+```sh
+ares-install -d tele DelK-lg.ipk
+ares-launch -d tele dev.tomyqb.delk
+```
+
+La app queda en la lista de apps como «Diversión en la Kikoneta».
+- **Para actualizar:** repite los pasos 4 y 5. Se instala encima y no se pierde nada.
+- **Si `ares-install` falla por espacio o firma:** pide permiso y desinstala la versión anterior con `ares-install -d tele --remove dev.tomyqb.delk`. Se pierden sus favoritos y su progreso.
+
+**Mando de LG:**
+- El puntero del **Magic Remote** sirve para señalar y pulsar.
+- La **rueda** baja y sube por las listas y, en pantalla completa, cambia de canal.
+- **Atrás** vuelve.
+
+La versión de LG es la más reciente de la app. Si la imagen no arranca en ningún canal, apunta el modelo de la tele y la versión de webOS y díselo a quien te pasó el enlace.
+
 ## Teles sin soporte
 
-LG (webOS), Hisense/Toshiba con VIDAA, Roku, Apple TV, Samsung de 2021 o anteriores, iPhone/iPad y aparatos con Android anterior a 5.1 no pueden instalar esta app. No intentes rodeos: ni tiendas alternativas, ni cambios de DNS, ni «jailbreaks».
+LG y Samsung de 2021 o anteriores, Hisense/Toshiba con VIDAA, Roku, Apple TV, iPhone/iPad y aparatos con Android anterior a 5.1 no pueden instalar esta app. No intentes rodeos: ni tiendas alternativas, ni cambios de DNS, ni «jailbreaks».
 
 La solución es enchufar a la tele por HDMI un **Fire TV Stick** o un **Google TV** (Chromecast con Google TV / Google TV Streamer) y seguir la sección de Android. Explícaselo así a la persona.
 
